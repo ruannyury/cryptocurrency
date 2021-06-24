@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super ()}} - Index{% endblock %}
+
+{% block content %}
+
+<h1>Atualizar</h1>
+<div>
+    <form action="" method="POST">
+        <div class="form-floating">
+            <label for="floatingInput">Nome:</label>
+            <input type="text" class="form-control" id="floatingInput" placeholder="Nome completo" name="nome">
+        </div>
+        <div class="form-floating">
+            <label for="floatingInput">CPF/CNPJ:</label>
+            <input type="text" class="form-control" id="floatingInput" placeholder="CPF/CNPJ:" name="cpfcnpj">
+        </div>
+        <div class="form-floating">
+            <label for="floatingInput">ID:</label>
+            <input type="number" class="form-control" id="floatingInput" placeholder="ID" name="id">
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock %}

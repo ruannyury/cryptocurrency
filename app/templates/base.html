@@ -10,7 +10,7 @@
     <link rel="icon" href="../../favicon.ico">
     <link rel="canonical" href="https://getbootstrap.com/docs/3.3/examples/jumbotron-narrow/">
 
-    <title>Catálogo</title>
+    <title>CryptoInfo</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -38,13 +38,12 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="{{ url_for('index') }}">Home</a></li>
-            <li role="presentation"><a href="{{ url_for('adicionar') }}">Adicionar</a></li>
+            <li role="presentation"><a href="{{ url_for('currency') }}">Currency</a></li>
+            <li role="presentation"><a href="{{ url_for('portfolio') }}">Portfolio</a></li>
             <li role="presentation"><a href="{{ url_for('visualizar') }}">Visualizar</a></li>
-            <li role="presentation"><a href="{{ url_for('atualizar') }}">Atualizar</a></li>
-            <li role="presentation"><a href="{{ url_for('remover') }}">Remover</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">Catálogo</h3>
+        <h3 class="text-muted">CryptoInfo - Currency and Portfolio</h3>
       </div>
 
       <div class="alert alert-warning">

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super ()}} - Currency{% endblock %}
+
+{% block content %}
+
+<h1>Cryptocurrency</h1>
+<form action="" method="POST">
+    <div class="form-floating">
+        <label for="floatingInput">Moeda FIAT:</label>
+        <input type="text" class="form-control" id="floatingInput" placeholder="Sigla da moeda fiduciária base" name="moeda">
+    </div>
+    <div class="form-floating">
+        <label for="floatingInput">Criptomoeda:</label>
+        <input type="text" class="form-control" id="floatingInput" placeholder="Sigla da Criptomoeda" name="sigla">
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+</form>
+
+{% endblock %}

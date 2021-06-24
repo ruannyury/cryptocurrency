@@ -1,5 +1,6 @@
 from flask import Flask, request, url_for, redirect, render_template, flash
 from app.models.tables import Cliente
+import cryptocompare
 
 
 app = Flask(__name__)
@@ -21,7 +22,18 @@ def deletar(cliente):
     clientes.remove(cliente)
 
 
-# Instanciar os Clientes
+# Dicionário com as siglas e nomes das criptos
+def listar():
+    """
+    :return: {...'BTC': 'Bitcoin', 'NANO': 'Nano'...}
+    """
+    dict_criptos_completo = cryptocompare.get_coin_list(format=False)
+    dict_criptos = {}
+    for sigla, nome in dict_criptos_completo.items():
+        dict_criptos[sigla] = nome['CoinName']
+    return dict_criptos
+
+
 clientes = [Cliente(1, "Ruann Yury", 100, '200.100.345-34', 'fisica'),
             Cliente(2, "Israelzin", 200, '200.100.346-34', 'fisica'),
             Cliente(3, "Rafolas", 300, '200.100.347-34', 'juridica')]
@@ -34,23 +46,20 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/adicionar", methods=['GET', 'POST'])
-def adicionar():
+@app.route("/currency", methods=['GET', 'POST'])
+def currency():
     if request.method == 'POST':
-        cliente = Cliente(global_id, request.form['nome'], global_codigo, request.form['cpfcnpj'], 'fisica')
-        atualizar_1(cliente)
-        flash('Adicionado!')
-        return redirect(url_for('visualizar'))
-    return render_template('adicionar.html')
+        nome = request.form['moeda']
+        sigla = request.form['sigla']
+        preco = cryptocompare.get_price(sigla.upper(), currency=nome.upper())
+        _str = f'Um {sigla.upper()} está valendo {preco[sigla.upper()][nome.upper()]} {nome.upper()}!'
+        flash(_str)
+        return redirect(url_for('currency'))
+    return render_template('currency.html')
 
 
-@app.route("/visualizar")
-def visualizar():
-    return render_template('visualizar.html', clientes=clientes)
-
-
-@app.route("/atualizar", methods=['GET', 'POST'])
-def atualizar():
+@app.route("/portfolio", methods=['GET', 'POST'])
+def portfolio():
     if request.method == 'POST':
         cliente_id = int(request.form['id'])
         cliente = [c for c in clientes if cliente_id == c.get_id()][0]
@@ -58,15 +67,10 @@ def atualizar():
         cliente.set_cnpjcpf(request.form['cpfcnpj'])
         flash('Atualizado!')
         return redirect(url_for('visualizar'))
-    return render_template('atualizar.html')
+    return render_template('portfolio.html')
 
 
-@app.route("/remover", methods=['GET', 'POST'])
-def remover():
-    if request.method == 'POST':
-        cliente_id = int(request.form['id'])
-        cliente = [c for c in clientes if cliente_id == c.get_id()][0]
-        deletar(cliente)
-        return render_template('remover.html', cliente=cliente)
-    else:
-        return render_template('remover.html')
+@app.route("/visualizar")
+def visualizar():
+    siglas_nomes = listar()
+    return render_template('visualizar.html', siglas_nomes=siglas_nomes)

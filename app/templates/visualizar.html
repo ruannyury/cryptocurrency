@@ -4,11 +4,12 @@
 
 {% block content %}
 
-<h1>Visualizar</h1>
+<h1>Índice</h1>
+<h4>Moedas e suas respectivas siglas</h4>
 <div>
     <ul>
-    {% for cliente in clientes %}
-        <li>{{ cliente.get_id() }} | {{ cliente.get_nome() }} | {{ cliente.get_cnpjcpf() }} | {{ cliente.get_codigo() }}</li>
+    {% for sigla, nome in siglas_nomes.items() %}
+        <li>| {{ sigla }} == {{ nome }} |</li>
     {% endfor %}
     </ul>
 </div>

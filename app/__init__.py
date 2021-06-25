@@ -1,5 +1,5 @@
 from flask import Flask, request, url_for, redirect, render_template, flash
-from app.models.tables import Cliente
+from app.models.tables import Cliente, User
 import cryptocompare
 
 

@@ -1,2 +1,1 @@
-Flask~=2.0.1
-alembic~=1.6.5
+flask, flask_sqlalchemy, SQLAlchemy, flask_login, werkzeug.security

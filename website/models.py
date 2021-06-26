@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
 
-    total_balance = db.Column(db.Float)  # Total do usuário
+    # total_balance = db.Column(db.Float)  # Total do usuário
     # flutuation_bal = db.Column(db.Float)  # Total de lucro ou prejuízo
 
     # Um usuário tem várias notas, criptos e transações:
@@ -37,18 +37,24 @@ class Note(db.Model):
 
 
 class Transaction(db.Model):
-    __tablename__ = 'Transaction'
+    __tablename__ = 'transaction'
 
     id = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.String(150), unique=True)
+    nome_cripto = db.Column(db.String(150))
+    quant = db.Column(db.Float)
+    data = db.Column(db.String(150))
+    quotation = db.Column(db.Float)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    criptos = db.relationship("Cripto", uselist=False, backref="Transaction")
+    criptos = db.relationship("Cripto", uselist=False, backref="transaction")
+
+    cripto_id = db.Column(db.Integer, ForeignKey('cripto.id'))
 
 
 class Cripto(db.Model):
-    __tablename__ = 'Cripto'
+    __tablename__ = 'cripto'
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(45), unique=True)
@@ -57,4 +63,6 @@ class Cripto(db.Model):
     flutuation = db.Column(db.Float)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    transaction_id = db.Column(db.Integer, ForeignKey('Transaction.id'))
+    transaction_id = db.Column(db.Integer, ForeignKey('transaction.id'))
+
+    transactions = db.relationship("Transaction", uselist=False, backref="Cripto")

@@ -28,16 +28,13 @@ def login():
     return render_template("login.html", user=current_user)
 
 
-@auth.route('/edit', methods=['GET', 'POST'])
-@login_required
-def edit():
-    return render_template("editportfolio.html")
+
 
 
 @auth.route('/editportfolio')
 @login_required
 def editportfolio():
-    return redirect(url_for('auth.edit'))
+    return redirect(url_for('views.edit'))
 
 
 @auth.route('/logout')

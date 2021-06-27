@@ -40,7 +40,7 @@ class Transaction(db.Model):
     __tablename__ = 'transaction'
 
     id = db.Column(db.Integer, primary_key=True)
-    tipo = db.Column(db.String(150), unique=True)
+    tipo = db.Column(db.String(150))
     nome_cripto = db.Column(db.String(150))
     quant = db.Column(db.Float)
     data = db.Column(db.String(150))

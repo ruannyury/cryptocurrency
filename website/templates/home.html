@@ -2,21 +2,16 @@
 
 {% block content %}
 
-<h1 align="center">Notes</h1>
+<h1 align="center">Transacoes</h1>
 <ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
+    {% for trans in user.transactions %}
     <li class="list-group-item">
-        {{ note.data }}
-        <button type="button" class="close" onClick = "deleteNote({{ note.id }})">
+        {{ trans.mostrar() }}
+        <button type="button" class="close" onClick = "deleteTrans({{ trans.id }})">
             <span aria-hidden="true">&times;</span>
         </button>
     </li>
     {% endfor %}
 </ul>
-<form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <div align="center">
-        <button type="submit" class="btn btn-primary">Add note</button>
-    </div>
-</form>
+
 {% endblock %}

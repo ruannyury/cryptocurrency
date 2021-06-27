@@ -1,7 +1,7 @@
-function deleteNote(noteId){
-    fetch('/delete-note',{
+function deleteTrans(transId){
+    fetch('/delete-trans',{
         method: 'POST',
-        body: JSON.stringify({ noteId: noteId })
+        body: JSON.stringify({ transId: transId })
     }).then((_res) => {
         window.location.href = "/";
     });

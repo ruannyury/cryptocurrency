@@ -13,7 +13,6 @@ views = Blueprint('views', __name__)
 def home():
     if request.method == 'POST':
         note = request.form.get('note')
-
         if len(note) < 1:
             flash('Note is too short!', category='error')
         else:
@@ -26,7 +25,6 @@ def home():
 
 
 def listar():
-
     # Primeiro cria um dicionário com sigla e respectivo nome: {...'BTC': 'Bitcoin', 'NANO': 'Nano'...}
     dict_criptos_completo = cryptocompare.get_coin_list(format=False)
     dict_criptos = {}
@@ -80,14 +78,14 @@ def edit():
     return render_template("editportfolio.html", user=current_user)
 
 
-@views.route('/delete-note', methods=['POST'])
-def delete_note():
-    note = json.loads(request.data)
-    note_id = note['noteId']
-    note = Note.query.get(note_id)
-    if note:
-        if note.user_id == current_user.id:
-            db.session.delete(note)
+@views.route('/delete-trans', methods=['POST'])
+def delete_trans():
+    trans = json.loads(request.data)
+    trans_id = trans['transId']
+    trans = Transaction.query.get(trans_id)
+    if trans:
+        if trans.user_id == current_user.id:
+            db.session.delete(trans)
             db.session.commit()
 
     return jsonify({})

@@ -51,6 +51,13 @@ class Transaction(db.Model):
     cripto = db.relationship("Cripto", back_populates="transaction", uselist=False)
 
 
+    def mostrar(self):
+        tipo_maiuscula = self.tipo.upper()
+        transacao_string = f'{tipo_maiuscula} || {self.nome_cripto} || {self.quant} || {self.data} || ' \
+                           f'{self.data} || {self.quotation} USD'
+        return transacao_string
+
+
 class Cripto(db.Model):
     __tablename__ = 'cripto'
 

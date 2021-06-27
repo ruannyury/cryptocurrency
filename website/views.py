@@ -46,30 +46,34 @@ def listar():
 @login_required
 def edit():
     if request.method == 'POST':
-        transaction_form = request.form['transaction']  # Recebe a resposta do tipo da transação
-        transaction_ = Transaction()
-        # Verifica qual o tipo da transação e adiciona no atributo "tipo" do objeto transaction_
-        if transaction_form == 1:
-            transaction_.tipo = "venda"
-        elif transaction_form == 2:
-            transaction_.tipo = "compra"
-        else:
-            transaction_.tipo = "transferencia"
+
+        transaction_form = request.form.get('transaction')  # Recebe a resposta do tipo da transação
         # Verifica se a sigla que o usuário colocou existe:
         # Pra isso, usa-se a função listar() que retorna uma lista contendo todas as siglas cripto:
         lista_de_siglas_cripto = listar()
-        if request.form['cripto'].upper() not in lista_de_siglas_cripto:
+        cripto_form = request.form.get('cripto').upper()
+
+        if cripto_form not in lista_de_siglas_cripto:
             flash('Essa sigla não existe!')
-            return redirect(url_for('editportfolio.html', user=current_user))  # Se não existir, reinicia a página
+            return redirect(url_for('auth.editportfolio', user=current_user))  # Se não existir, reinicia a página
         else:
-            cripto_form = request.form['cripto'].upper()  # Se existir, a cripto é adicionada ao atributo "cripto"
-            # do objeto transaction_
-            transaction_.nome = cripto_form
+            pass
 
-        transaction_.data = request.form['data']  # Adiciona a data da transação ao objeto
-        flash(transaction_.data)  # Printa a data apenas para testar e ver como o formato fica em string
+        transaction_quant = request.form.get('quant')
+        transaction_data = request.form.get('data')  # Recebe a data da transação
+        flash('Transação adicionada!')  # Printa a data apenas para testar e ver como o formato fica em string
 
-        transaction_.quotation = request.form['cotacao']  # Adiciona a cotação daquela moeda no objeto
+        transaction_quotation = request.form.get('cotacao')  # Adiciona a cotação daquela moeda no objeto
+
+        new_transaction = Transaction(tipo=transaction_form,
+                                      nome_cripto=cripto_form,
+                                      quant=transaction_quant,
+                                      data=transaction_data,
+                                      quotation=transaction_quotation,
+                                      user_id=current_user.id)
+
+        db.session.add(new_transaction)
+        db.session.commit()
 
         return redirect(url_for('views.home'))
 
@@ -79,8 +83,8 @@ def edit():
 @views.route('/delete-note', methods=['POST'])
 def delete_note():
     note = json.loads(request.data)
-    noteId = note['noteId']
-    note = Note.query.get(noteId)
+    note_id = note['noteId']
+    note = Note.query.get(note_id)
     if note:
         if note.user_id == current_user.id:
             db.session.delete(note)

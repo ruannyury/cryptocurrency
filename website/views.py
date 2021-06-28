@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
-from website.models import Note, User, Cripto, Transaction
+from sqlalchemy.orm import session, query
+from sqlalchemy import subquery
+from website.models import User, Cripto, Transaction
 from . import db
 import json
 import cryptocompare
@@ -8,19 +10,9 @@ import cryptocompare
 views = Blueprint('views', __name__)
 
 
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/', methods=['GET'])
 @login_required
 def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-
     return render_template("home.html", user=current_user)
 
 
@@ -44,7 +36,6 @@ def listar():
 @login_required
 def edit():
     if request.method == 'POST':
-
         transaction_form = request.form.get('transaction')  # Recebe a resposta do tipo da transação
         # Verifica se a sigla que o usuário colocou existe:
         # Pra isso, usa-se a função listar() que retorna uma lista contendo todas as siglas cripto:

@@ -28,9 +28,6 @@ def login():
     return render_template("login.html", user=current_user)
 
 
-
-
-
 @auth.route('/editportfolio')
 @login_required
 def editportfolio():

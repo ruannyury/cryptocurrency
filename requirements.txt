@@ -1,1 +1,21 @@
-flask, flask_sqlalchemy, SQLAlchemy, flask_login, werkzeug.security
+pip~=21.1.2
+wheel~=0.36.2
+Mako~=1.1.4
+MarkupSafe~=2.0.1
+Werkzeug~=2.0.1
+Jinja2~=3.0.1
+click~=8.0.1
+itsdangerous~=2.0.1
+SQLAlchemy~=1.4.19
+python-dateutil~=2.8.1
+alembic~=1.6.5
+certifi~=2021.5.30
+chardet~=4.0.0
+urllib3~=1.26.5
+six~=1.16.0
+greenlet~=1.1.0
+idna~=2.10
+setuptools~=57.0.0
+Flask~=2.0.1
+cryptocompare~=0.7.5
+requests~=2.25.1

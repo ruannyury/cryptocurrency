@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+
+{% block content %}
+
+<h1 align="center">Transacoes</h1>
+<ul class="list-group list-group-flush" id="notes">
+    {% for trans in user.transactions %}
+    <li class="list-group-item">
+        {{ trans.mostrar() }}
+        <button type="button" class="close" onClick = "deleteTrans({{ trans.id }})">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </li>
+    {% endfor %}
+</ul>
+<br><br><br><br>
+
+<form method="POST">
+    <h5>Listar apenas as transações da moeda: </h5>
+    <div>
+        <input name="cripto" type="text" id="cripto" placeholder="Sigla da cripto">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Listar</button>
+    </div>
+</form>
+
+{% endblock %}

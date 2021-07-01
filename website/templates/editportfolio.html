@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block title %}Editar Portfolio{% endblock %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<form method="POST">
+    <h3 align="center">Tipo de transação</h3>
+    <div align="center">
+        <label>Venda</label>
+        <input name="transaction" type="checkbox" id="transaction" value="venda">
+        <br>
+        <label>Compra</label>
+        <input name="transaction" type="checkbox" id="transaction" value="compra">
+        <br>
+        <label>Transferência</label>
+        <input name="transaction" type="checkbox" id="transaction" value="transferencia">
+        <br>
+    </div>
+
+    <h3 align="center">Cripto</h3>
+    <div align="center">
+        <input name="cripto" type="text" id="cripto" placeholder="Sigla da moeda cripto" required autofocus>
+    </div>
+    <div align="center">
+        <br>
+    </div>
+
+    <h3 align="center">Quantidade</h3>
+    <div align="center">
+        <input name="quant" type="number" step="any" id="quant" placeholder="Quantidade">
+    </div>
+    <div align="center">
+        <br>
+    </div>
+
+    <h3 align="center">Data</h3>
+    <div align="center">
+        <input name="data" type="date" id="data">
+    </div>
+    <div align="center">
+        <br>
+    </div>
+
+    <h3 align="center">Cotacao</h3>
+    <div align="center">
+        <input name="cotacao" type="number" id="cotacao" placeholder="Cotacao do dia">
+    </div>
+    <div align="center">
+        <br>
+        <button type="submit" class="btn btn-primary">Adicionar transacao</button>
+    </div>
+
+
+</form>
+{% endblock %}

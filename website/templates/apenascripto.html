@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block title %}Listagem{% endblock %}
+
+{% block content %}
+
+<h1 align="center">Transacoes</h1>
+<ul class="list-group list-group-flush" id="criptos">
+    {% for trans in user.transactions %}
+    <li class="list-group-item">
+        {% if cripto == trans.nome_cripto %}
+            {{ trans.mostrar() }}
+            <button type="button" class="close" onClick = "deleteTrans({{ trans.id }})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<form method="POST">
+
+    <h5>Listar apenas as transações da moeda: </h5>
+    <div>
+        <input name="cripto" type="text" id="cripto" placeholder="Sigla da cripto">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Listar</button>
+    </div>
+    <div align="center">
+        <button type="submit" class="btn btn-primary" id="voltar">Voltar</button>
+    </div>
+
+</form>
+
+{% endblock %}

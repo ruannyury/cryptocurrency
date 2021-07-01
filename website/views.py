@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy.orm import session, query
-from sqlalchemy import subquery
+from sqlalchemy import desc
 from website.models import User, Cripto, Transaction
 from . import db
 import json
@@ -10,9 +10,60 @@ import cryptocompare
 views = Blueprint('views', __name__)
 
 
-@views.route('/', methods=['GET'])
+def lista_transacoes():
+    # user = Transaction.query.filter_by(user_id=current_user.id).all()
+    transacoes_user = Transaction.query.order_by(Transaction.id.desc()).all()
+    return transacoes_user
+
+
+def total_balance():
+    soma_total = 0
+    for trans in current_user.transactions:
+        balance_day = trans.quotation * trans.quant
+        soma_total += balance_day
+    return soma_total
+
+
+@views.route('/apenascripto', methods=['GET', 'POST'])
+@login_required
+def apenascripto():
+
+    if request.method == 'POST':
+
+        lista_de_siglas_cripto = listar()
+        cripto_form = request.form.get('cripto').upper()
+
+        if cripto_form not in lista_de_siglas_cripto:
+            flash('Essa sigla não existe!')
+            return redirect(url_for('views.home', user=current_user))  # Se não existir, reinicia a página
+        elif request.form.get('voltar'):
+            return redirect(url_for('views.home', user=current_user))
+        else:
+            flash('Listado!')
+            # return redirect(url_for('views.apenascripto', user=current_user, cripto=cripto_form))
+            return render_template('apenascripto.html', user=current_user, cripto=cripto_form)
+    return render_template("apenascripto.html", user=current_user)
+
+
+@views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    total = f'Total em dólares: {total_balance()} USD.'
+    flash(total)
+
+    if request.method == 'POST':
+
+        lista_de_siglas_cripto = listar()
+        cripto_form = request.form.get('cripto').upper()
+
+        if cripto_form not in lista_de_siglas_cripto:
+            flash('Essa sigla não existe!')
+            return redirect(url_for('views.home', user=current_user))  # Se não existir, reinicia a página
+        else:
+            flash('Listado!')
+            # return redirect(url_for('views.apenascripto', cripto=cripto_form, user=current_user))
+            return render_template('apenascripto.html', user=current_user, cripto=cripto_form)
+
     return render_template("home.html", user=current_user)
 
 
@@ -60,6 +111,9 @@ def edit():
                                       data=transaction_data,
                                       quotation=transaction_quotation,
                                       user_id=current_user.id)
+
+        # transactions = new_transaction.order_by(new_transaction.id.desc()).all()
+        # flash(transactions)
 
         db.session.add(new_transaction)
         db.session.commit()

@@ -41,7 +41,7 @@ class Transaction(db.Model):
 
     def mostrar(self):
         tipo_maiuscula = self.tipo.upper()
-        transacao_string = f'{tipo_maiuscula} || {self.nome_cripto} || {self.quant} || {self.data} || ' \
+        transacao_string = f'{tipo_maiuscula} || {self.quant} {self.nome_cripto} || {self.data} || ' \
                            f'{self.data} || {self.quotation} USD'
         return transacao_string
 

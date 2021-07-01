@@ -13,5 +13,16 @@
     </li>
     {% endfor %}
 </ul>
+<br><br><br><br>
+
+<form method="POST">
+    <h5>Listar apenas as transações da moeda: </h5>
+    <div>
+        <input name="cripto" type="text" id="cripto" placeholder="Sigla da cripto">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Listar</button>
+    </div>
+</form>
 
 {% endblock %}

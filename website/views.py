@@ -34,13 +34,12 @@ def apenascripto():
         cripto_form = request.form.get('cripto').upper()
 
         if cripto_form not in lista_de_siglas_cripto:
-            flash('Essa sigla não existe!')
-            return redirect(url_for('views.home', user=current_user))  # Se não existir, reinicia a página
+            flash('Essa sigla não existe!', category='error')
+            return redirect(url_for('views.apenascripto', user=current_user))  # Se não existir, reinicia a página
         elif request.form.get('voltar'):
             return redirect(url_for('views.home', user=current_user))
         else:
             flash('Listado!')
-            # return redirect(url_for('views.apenascripto', user=current_user, cripto=cripto_form))
             return render_template('apenascripto.html', user=current_user, cripto=cripto_form)
     return render_template("apenascripto.html", user=current_user)
 
@@ -52,17 +51,7 @@ def home():
     flash(total)
 
     if request.method == 'POST':
-
-        lista_de_siglas_cripto = listar()
-        cripto_form = request.form.get('cripto').upper()
-
-        if cripto_form not in lista_de_siglas_cripto:
-            flash('Essa sigla não existe!')
-            return redirect(url_for('views.home', user=current_user))  # Se não existir, reinicia a página
-        else:
-            flash('Listado!')
-            # return redirect(url_for('views.apenascripto', cripto=cripto_form, user=current_user))
-            return render_template('apenascripto.html', user=current_user, cripto=cripto_form)
+        return redirect(url_for('views.apenascripto'))
 
     return render_template("home.html", user=current_user)
 

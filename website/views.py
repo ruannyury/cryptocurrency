@@ -18,9 +18,14 @@ def lista_transacoes():
 
 def total_balance():
     soma_total = 0
+    print(current_user.transactions)
     for trans in current_user.transactions:
         balance_day = trans.quotation * trans.quant
-        soma_total += balance_day
+
+        if trans.tipo == 'compra':
+            soma_total += balance_day
+        elif trans.tipo == 'venda' or trans.tipo == 'transferencia':
+            soma_total -= balance_day
     return soma_total
 
 

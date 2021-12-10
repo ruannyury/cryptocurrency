@@ -28,6 +28,14 @@ def login():
     return render_template("login.html", user=current_user)
 
 
+@auth.route('/index_login', methods=['GET', 'POST'])
+def index_login():
+    return render_template("index_login.php", user=current_user)
+
+@auth.route('/index_register', methods=['GET', 'POST'])
+def index_register():
+    return render_template("index_register.php", user=current_user)
+
 @auth.route('/editportfolio')
 @login_required
 def editportfolio():
@@ -38,7 +46,7 @@ def editportfolio():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.index_login'))
 
 
 @auth.route('/sign-up', methods=['GET', 'POST'])

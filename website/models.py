@@ -21,12 +21,12 @@ class User(db.Model, UserMixin):
     flutuation_bal = db.Column(db.Float)  # Total de lucro ou prejuízo
 
     # Um usuário tem várias criptos e transações:
-    transactions = db.relationship('Transaction')
+    transactions = db.relationship('Transacao')
     criptos = db.relationship('Cripto')
 
 
-class Transaction(db.Model):
-    __tablename__ = 'transaction'
+class Transacao(db.Model):
+    __tablename__ = 'transacao'
 
     id = db.Column(db.Integer, primary_key=True)
     tipo = db.Column(db.String(150))
@@ -37,7 +37,7 @@ class Transaction(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    cripto = db.relationship("Cripto", back_populates="transaction", uselist=False)
+    cripto = db.relationship("Cripto", back_populates="transacao", uselist=False)
 
     def mostrar(self):
         tipo_maiuscula = self.tipo.upper()
@@ -57,5 +57,5 @@ class Cripto(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    transaction_id = db.Column(db.Integer, db.ForeignKey("transaction.id"))
-    transaction = db.relationship("Transaction", back_populates="cripto")
+    transacao_id = db.Column(db.Integer, db.ForeignKey("transacao.id"))
+    transacao = db.relationship("Transacao", back_populates="cripto")

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify, redirect,
 from flask_login import login_required, current_user
 from sqlalchemy.orm import session, query
 from sqlalchemy import desc
-from website.models import User, Cripto, Transaction
+from website.models import User, Cripto, Transacao
 from . import db
 import json
 import cryptocompare
@@ -12,7 +12,7 @@ views = Blueprint('views', __name__)
 
 def lista_transacoes():
     # user = Transaction.query.filter_by(user_id=current_user.id).all()
-    transacoes_user = Transaction.query.order_by(Transaction.id.desc()).all()
+    transacoes_user = Transacao.query.order_by(Transacao.id.desc()).all()
     return transacoes_user
 
 
@@ -94,12 +94,12 @@ def edit():
 
         transaction_quotation = request.form.get('cotacao')  # Adiciona a cotação daquela moeda no objeto
 
-        new_transaction = Transaction(tipo=transaction_form,
-                                      nome_cripto=cripto_form,
-                                      quant=transaction_quant,
-                                      data=transaction_data,
-                                      quotation=transaction_quotation,
-                                      user_id=current_user.id)
+        new_transaction = Transacao(tipo=transaction_form,
+                                    nome_cripto=cripto_form,
+                                    quant=transaction_quant,
+                                    data=transaction_data,
+                                    quotation=transaction_quotation,
+                                    user_id=current_user.id)
 
         # transactions = new_transaction.order_by(new_transaction.id.desc()).all()
         # flash(transactions)
@@ -116,7 +116,7 @@ def edit():
 def delete_trans():
     trans = json.loads(request.data)
     trans_id = trans['transId']
-    trans = Transaction.query.get(trans_id)
+    trans = Transacao.query.get(trans_id)
     if trans:
         if trans.user_id == current_user.id:
             db.session.delete(trans)
